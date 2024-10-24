@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--
+    Author: Zhang Yuyue
+    Author: Ding Zihe
+    Description: This page is home
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart Application</title>
+    <!-- 修改后的CSS路径 -->
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="indexpage">
+<div class="nav">
+    <div class="logo">
+        <span>Shopping<span id="orange-letter">Cart</span></span>
+    </div>
+    <ul class="navlist">
+        <!-- 修改后的导航链接 -->
+        <li class="navli"><a th:href="@{/home}">Home</a></li>
+        <li class="navli"><a href="#">Category</a>
+            <ul class="droplist">
+                <li><a th:href="@{/electronics}">Electronics</a></li>
+                <li><a th:href="@{/snacks}">Snacks</a></li>
+                <li><a th:href="@{/outfits}">Outfits</a></li>
+            </ul>
+        </li>
+            <li class="navli"><a href="#">About</a></li>
+            <li class="navli"><a href="http://localhost:3000/">Cart</a></li>
+            <!-- 此处的个人中心和登录注册页面你似乎在使用Thymeleaf，保持不变 -->
+            <li class="navli"><a th:href="@{/personal_center}" class="icon-wrapper"><i class="fas fa-user-circle"></i></a></li>
+        <li class="navli" th:if="${session.loggingCustomerId == null}">
+            <a id="login" th:href="@{/login}">Sign in</a>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId == null}">
+            <a id="signup" th:href="@{/signup}">Sign up</a>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId != null}">
+            <span  id = "welcome">Welcome,&nbsp; <span th:text="${session.loggingCustomerName}">User</span></span>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId != null}">
+            <a th:href="@{/signout}">Sign out</a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="text-content">
+        <h1>Welcome to G3 Shopping Cart!</h1>
+        <p>Welcome to our Shopping Cart! Whether you're looking for the latest electronics, trendy outfits, or delicious snacks, you'll find everything you need right here.</p>
+        <div id="search">
+            <form th:action="@{/search}" method="post">
+                <input type="text" name="query" id="search-input" placeholder="Search for products...">
+                <button id="search-button" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="img">
+        <!-- 修改后的图片路径 -->
+        <img id="cart-image" th:src="@{/image/spc1.jpg}" alt="Shopping Cart Image">
+    </div>
+</div>
+
+<!-- 修改后的JS路径 -->
+<script th:src="@{/js/slideimg.js}"></script>
+
+</body>
+</html>

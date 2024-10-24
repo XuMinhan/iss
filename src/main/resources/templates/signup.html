@@ -1,0 +1,120 @@
+<!--
+    Author: Hu Lunwei
+    Author: Ding Zihe
+    Description: This page is sign up
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/signup.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+
+<body class="indexpage">
+<div class="nav">
+    <div class="logo">
+        <span>Shopping<span id="orange-letter">Cart</span></span>
+    </div>
+    <ul class="navlist">
+        <!-- 修改后的导航链接 -->
+        <li class="navli"><a th:href="@{/home}">Home</a></li>
+        <li class="navli"><a href="#">Category</a>
+            <ul class="droplist">
+                <li><a th:href="@{/electronics}">Electronics</a></li>
+                <li><a th:href="@{/snacks}">Snacks</a></li>
+                <li><a th:href="@{/outfits}">Outfits</a></li>
+            </ul>
+        </li>
+        <li class="navli"><a href="#">About</a></li>
+        <li class="navli"><a href="http://localhost:3000/">Cart</a></li>
+        <!-- 此处的个人中心和登录注册页面你似乎在使用Thymeleaf，保持不变 -->
+        <li class="navli"><a th:href="@{/personal_center}" class="icon-wrapper"><i class="fas fa-user-circle"></i></a></li>
+    </ul>
+</div>
+
+<!-- 注册表单 -->
+<div class="signup-form-container">
+    <div class="signup-form-box">
+        <h2>Register Your Account</h2>
+        <form th:action="@{/signup}" th:object="${customer}" method="post">
+            <div class="signup-input-group">
+                <input type="text" id="name" th:field="*{name}" placeholder="Enter your name">
+            </div>
+            <!-- 显示 name 字段的错误 -->
+            <div th:if="${#fields.hasErrors('name')}" class="field-error">
+                <div th:each="error : ${#fields.errors('name')}">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <p th:text="${error}"></p>
+                </div>
+            </div>
+
+
+            <div class="signup-input-group">
+                <input type="text" id="email" th:field="*{email}" placeholder="Enter your email">
+            </div>
+            <!--显示 Email 字段的错误-->
+            <div th:if="${#fields.hasErrors('email')}" class="field-error">
+                <div th:each="error : ${#fields.errors('email')}">
+                    <i class="fa fa-exclamation-triangle"></i> <!-- 为每个错误信息添加一个图标 -->
+                    <p th:text="${error}"></p> <!-- 每条错误信息用 <p> 包裹，确保换行 -->
+                </div>
+            </div>
+
+            <div class="signup-input-group">
+                <input type="text" id="phone" th:field="*{phone}" placeholder="Enter your phone number">
+            </div>
+            <!--显示 phone 字段的错误-->
+            <div th:if="${#fields.hasErrors('phone')}" class="field-error">
+                <div th:each="error : ${#fields.errors('phone')}">
+                    <i class="fa fa-exclamation-triangle"></i> <!-- 为每个错误信息添加一个图标 -->
+                    <p th:text="${error}"></p> <!-- 每条错误信息用 <p> 包裹，确保换行 -->
+                </div>
+            </div>
+
+            <div class="signup-input-group">
+                <input type="password" id="password" th:field="*{password}" placeholder="Set your password">
+            </div>
+            <!--显示 password 字段的错误-->
+            <div th:if="${#fields.hasErrors('password')}" class="field-error">
+                <div th:each="error : ${#fields.errors('password')}">
+                    <i class="fa fa-exclamation-triangle"></i> <!-- 为每个错误信息添加一个图标 -->
+                    <p th:text="${error}"></p> <!-- 每条错误信息用 <p> 包裹，确保换行 -->
+                </div>
+            </div>
+
+            <div class="signup-input-group">
+                <input type="password" id="re_password" name="re_password" placeholder="confirm your password" >
+            </div>
+            <!--注册错误消息-->
+            <div th:if="${errors != null}" class="alert-error">
+                <i class="fa fa-exclamation-triangle"></i>
+                <span th:text="${errors}"></span>
+            </div>
+            <div th:if="${errors_1 != null}" class="alert-error">
+                <i class="fa fa-exclamation-triangle"></i>
+                <span th:text="${errors_1}"></span>
+            </div>
+            <div th:if="${errors_2 != null}" class="alert-error">
+                <i class="fa fa-exclamation-triangle"></i>
+                <span th:text="${errors_2}"></span>
+            </div>
+
+            <button type="submit" class="signup-btn">Sign up</button>
+        </form>
+        <div class="extra-links">
+            <a th:href="@{/login}" class="login-link">Already have an account ? Sign in</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

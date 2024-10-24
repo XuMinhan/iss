@@ -1,0 +1,95 @@
+<!--
+    Author: Hu Lunwei
+    Author: Ding Zihe
+    Description: This page is showing orders history
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders </title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/order.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body class="indexpage">
+<div class="nav">
+    <div class="logo">
+        <span>Shopping<span id="orange-letter">Cart</span></span>
+    </div>
+    <ul class="navlist">
+        <!-- 修改后的导航链接 -->
+        <li class="navli"><a th:href="@{/home}">Home</a></li>
+        <li class="navli"><a href="#">Category</a>
+            <ul class="droplist">
+                <li><a th:href="@{/electronics}">Electronics</a></li>
+                <li><a th:href="@{/snacks}">Snacks</a></li>
+                <li><a th:href="@{/outfits}">Outfits</a></li>
+            </ul>
+        </li>
+        <li class="navli"><a href="#">About</a></li>
+        <li class="navli"><a href="http://localhost:3000/">Cart</a></li>
+        <!-- 此处的个人中心和登录注册页面你似乎在使用Thymeleaf，保持不变 -->
+        <li class="navli"><a th:href="@{/personal_center}" class="icon-wrapper"><i class="fas fa-user-circle"></i></a></li>
+        <li class="navli"><a th:href="@{/signout}">Sign out</a></li>
+    </ul>
+</div>
+
+<!-- 显示登录成功的消息 -->
+<div th:if="${successMessage != null}" class="success-message">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<!-- 订单信息 -->
+<h1><span th:text="${session.loggingCustomerName + '''s'}"></span> Orders</h1>
+
+<div class="orders-container">
+    <table class="orders-table">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 遍历订单 -->
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.orderDate}"></td>
+            <!-- 使用后端传递的总金额 -->
+            <td th:text="${#numbers.formatDecimal(orderTotalMap[order.id], 1, 'POINT', 2, 'COMMA')}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 订单详情 -->
+    <div th:each="order : ${orders}" class="order-details">
+        <h3>Order Details for Order ID: <span th:text="${order.id}"></span></h3>
+        <table class="order-details-table">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="detail : ${orderDetailsMap[order.id]}">
+                <td th:text="${detail.product.productName}"></td>
+                <td th:text="${detail.quantity}"></td>
+                <td th:text="${detail.product.unitPrice}"></td>
+                <td th:text="${detail.totalPrice}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<a href="/home" class="btn-back">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!--
+    Author: Hu Lunwei
+    Author: Ding Zihe
+    Description: This page is searching page
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <!-- CSS 路径 -->
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/search.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+<div class="nav">
+    <div class="logo">
+        <span>Shopping<span id="orange-letter">Cart</span></span>
+    </div>
+    <ul class="navlist">
+        <!-- 修改后的导航链接 -->
+        <li class="navli"><a th:href="@{/home}">Home</a></li>
+        <li class="navli"><a href="#">Category</a>
+            <ul class="droplist">
+                <li><a th:href="@{/electronics}">Electronics</a></li>
+                <li><a th:href="@{/snacks}">Snacks</a></li>
+                <li><a th:href="@{/outfits}">Outfits</a></li>
+            </ul>
+        </li>
+        <li class="navli"><a href="#">About</a></li>
+        <li class="navli"><a href="http://localhost:3000/">Cart</a></li>
+        <!-- 此处的个人中心和登录注册页面你似乎在使用Thymeleaf，保持不变 -->
+        <li class="navli"><a th:href="@{/personal_center}" class="icon-wrapper"><i class="fas fa-user-circle"></i></a></li>
+        <li class="navli" th:if="${session.loggingCustomerId == null}">
+            <a id="login" th:href="@{/login}">Sign in</a>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId == null}">
+            <a id="signup" th:href="@{/signup}">Sign up</a>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId != null}">
+            <span  id = "welcome">Welcome,&nbsp; <span th:text="${session.loggingCustomerName}">User</span></span>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId != null}">
+            <a th:href="@{/signout}">Sign out</a>
+        </li>
+    </ul>
+</div>
+
+<!-- 添加搜索框 -->
+<div class="search-container">
+    <form th:action="@{/search}" method="post">
+        <input type="text" name="query" id="search-input" placeholder="Search for product..." />
+        <button type="submit" id="search-button">Search</button>
+    </form>
+</div>
+
+<!-- 搜索结果展示 -->
+<div class="main-content" id="main-content">
+    <div id="search-results">
+        <h1>Search Results</h1>
+        <div id="results-container">
+            <!-- 如果有结果，展示结果 -->
+            <div class="card-container" th:if="${productList != null}">
+                <div class="card" th:each="product : ${productList}">
+                    <h2 class="product-name" th:text="${product.productName}"></h2>
+                    <p class="price" th:text="'Price: ' + ${product.unitPrice} + '$'"></p>
+                    <form th:action="@{/add-shopping-card}" method="post">
+                        <input type="hidden" name="productId" th:value="${product.productId}">
+                        <input type="hidden" name="query" th:value="${query}">
+                        <button id ="button1" type="submit" class="button">Add to cart</button>
+                    </form>
+                    <!-- 判断 imageUrl 是否以 1 开头 -->
+                    <img th:if="${product.imageUrl.startsWith('1')}"
+                         th:src="@{/image/Electronics/{imageUrl}(imageUrl=${product.imageUrl})}"
+                         alt="product image">
+
+                    <!-- 判断 imageUrl 是否以 2 开头 -->
+                    <img th:if="${product.imageUrl.startsWith('2')}"
+                         th:src="@{/image/Snacks/{imageUrl}(imageUrl=${product.imageUrl})}"
+                         alt="product image">
+
+                    <!-- 判断 imageUrl 是否以 3 开头（或默认情况） -->
+                    <img th:if="${product.imageUrl.startsWith('3')}"
+                         th:src="@{/image/Outfits/{imageUrl}(imageUrl=${product.imageUrl})}"
+                         alt="product image">
+                </div>
+            </div>
+            <!-- 如果没有搜索结果，展示提示 -->
+            <p th:if="${productList == null || productList.isEmpty()}">No product match your search.</p>
+        </div>
+    </div>
+</div>
+<div id="toast" style="visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 16px; position: fixed; z-index: 1; bottom: 30px; left: 50%; transform: translateX(-50%);">
+    Added to cart!
+</div>
+
+<script th:if="${boolean == 'true'}" th:src="@{/js/add_shoppingcard_success.js}"></script>
+<script th:if="${boolean == 'false'}" th:src="@{/js/add_shoppingcard_error.js}"></script>
+
+</body>
+
+</html>

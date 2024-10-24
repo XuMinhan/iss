@@ -1,0 +1,98 @@
+<!--
+    Author: Zhang Yuyue
+    Author: Ding Zihe
+    Description: This page is showing products
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfits</title>
+    <!-- 修改后的CSS路径 -->
+    <link rel="stylesheet" th:href="@{/css/category.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+<div class="nav">
+    <div class="logo">
+        <span>Shopping<span id="orange-letter">Cart</span></span>
+    </div>
+    <ul class="navlist">
+        <!-- 修改后的导航链接 -->
+        <li class="navli"><a th:href="@{/home}">Home</a></li>
+        <li class="navli"><a href="#">Category</a>
+            <ul class="droplist">
+                <li><a th:href="@{/electronics}">Electronics</a></li>
+                <li><a th:href="@{/snacks}">Snacks</a></li>
+                <li><a th:href="@{/outfits}">Outfits</a></li>
+            </ul>
+        </li>
+        <li class="navli"><a href="#">About</a></li>
+        <li class="navli"><a href="http://localhost:3000/">Cart</a></li>
+        <!-- 假设你正在使用Thymeleaf来处理这些个人中心和登录注册页面 -->
+        <li class="navli"><a th:href="@{/personal_center}" class="icon-wrapper"><i class="fas fa-user-circle"></i></a></li>
+        <li class="navli" th:if="${session.loggingCustomerId == null}">
+            <a id="login" th:href="@{/login}">Sign in</a>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId == null}">
+            <a id="signup" th:href="@{/signup}">Sign up</a>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId != null}">
+            <span  id = "welcome">Welcome,&nbsp; <span th:text="${session.loggingCustomerName}">User</span></span>
+        </li>
+        <li class="navli" th:if="${session.loggingCustomerId != null}">
+            <a th:href="@{/signout}">Sign out</a>
+        </li>
+    </ul>
+</div>
+
+<section class="category">
+    <div class="list-items">
+        <h1>Outfits</h1>
+        <div class="card-list">
+            <div class="card">
+                <!-- 修改后的图片路径 -->
+                <img th:src="@{/image/Outfits/3.1.0Men’s Clothing.jpg}" alt="Men’s Clothing Image">
+                <h2>Men’s Clothing</h2>
+                <a th:href="@{/outfits/mensclothing}" class="button">View More</a>
+            </div>
+            <div class="card">
+                <img th:src="@{/image/Outfits/3.2.0Women’s Clothing.jpg}" alt="Women’s Clothing Image">
+                <h2>Women’s Clothing</h2>
+                <a th:href="@{/outfits/womensclothing}" class="button">View More</a>
+            </div>
+            <div class="card">
+                <img th:src="@{/image/Outfits/3.3.0Sportswear.jpg}" alt="Sportswear Image">
+                <h2>Sportswear</h2>
+                <a th:href="@{/outfits/sportswear}" class="button">View More</a>
+            </div>
+            <div class="card">
+                <img th:src="@{/image/Outfits/3.4.0Jewelry.jpg}" alt="Jewelry Image">
+                <h2>Jewelry</h2>
+                <a th:href="@{/outfits/jewelry}" class="button">View More</a>
+            </div>
+            <div class="card">
+                <img th:src="@{/image/Outfits/3.5.0Footwear.jpg}" alt="Footwear Image">
+                <h2>Footwear</h2>
+                <a th:href="@{/outfits/footwear}" class="button">View More</a>
+            </div>
+            <div class="card">
+                <img th:src="@{/image/Outfits/3.6.0Handbags.jpg}" alt="Handbags Image">
+                <h2>Handbags</h2>
+                <a th:href="@{/outfits/handbags}" class="button">View More</a>
+            </div>
+            <div class="card">
+                <img th:src="@{/image/Outfits/3.7.0Watches.jpg}" alt="Watches Image">
+                <h2>Watches</h2>
+                <a th:href="@{/outfits/watches}" class="button">View More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>
